@@ -1,2 +1,2 @@
-# tif2001---Kelompok05---masih-mikir
-Proyek Pengembangan Aplikasi [nama app] - TIF2001 Software Development
+# tif2001-odette-medication-reminder
+Proyek Pengembangan Aplikasi Medication Reminder - TIF2001 Software Development
