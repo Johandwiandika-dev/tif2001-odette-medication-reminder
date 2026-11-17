@@ -1,63 +1,77 @@
-# API Specifications
+# Spesifikasi API
 
-## Project
+## Proyek
+
 TIF2001 Odette Medication Reminder
 
-## Base URL
-http://localhost:5000/api/v1
+## Alamat Dasar API
 
-## Authentication
+`http://localhost:5000/api/v1`
 
-### Register
-- Method: POST
-- Endpoint: /auth/register
-- Description: Register a new user.
+## Autentikasi Pengguna
 
-### Login
-- Method: POST
-- Endpoint: /auth/login
-- Description: Authenticate user and return JWT token.
+### Pendaftaran Akun
 
-## Medications
+- Metode: POST
+- Alamat: `/auth/register`
+- Keterangan: Mendaftarkan pengguna baru.
 
-### Get Medications
-- Method: GET
-- Endpoint: /medications
-- Description: Get medications belonging to the authenticated user.
+### Masuk ke Akun
 
-### Add Medication
-- Method: POST
-- Endpoint: /medications
-- Description: Add a new medication.
+- Metode: POST
+- Alamat: `/auth/login`
+- Keterangan: Memeriksa identitas pengguna dan mengembalikan token JWT jika berhasil.
 
-### Update Medication
-- Method: PUT
-- Endpoint: /medications/:id
-- Description: Update medication information.
+## Data Obat
 
-### Delete Medication
-- Method: DELETE
-- Endpoint: /medications/:id
-- Description: Delete a medication.
+### Melihat Daftar Obat
 
-## Reminders
+- Metode: GET
+- Alamat: `/medications`
+- Keterangan: Mengambil daftar obat milik pengguna yang sudah terautentikasi.
 
-### Get Reminders
-- Method: GET
-- Endpoint: /reminders
-- Description: Get reminders belonging to the authenticated user.
+### Menambahkan Obat
 
-### Add Reminder
-- Method: POST
-- Endpoint: /reminders
-- Description: Create a medication reminder.
+- Metode: POST
+- Alamat: `/medications`
+- Keterangan: Menambahkan data obat baru.
 
-### Update Reminder
-- Method: PUT
-- Endpoint: /reminders/:id
-- Description: Update a reminder.
+### Mengubah Data Obat
 
-### Delete Reminder
-- Method: DELETE
-- Endpoint: /reminders/:id
-- Description: Delete a reminder.
+- Metode: PUT
+- Alamat: `/medications/:id`
+- Keterangan: Mengubah informasi obat berdasarkan ID.
+
+### Menghapus Data Obat
+
+- Metode: DELETE
+- Alamat: `/medications/:id`
+- Keterangan: Menghapus data obat berdasarkan ID.
+
+## Jadwal Pengingat
+
+### Melihat Daftar Pengingat
+
+- Metode: GET
+- Alamat: `/reminders`
+- Keterangan: Mengambil daftar pengingat milik pengguna yang sudah terautentikasi.
+
+### Menambahkan Pengingat
+
+- Metode: POST
+- Alamat: `/reminders`
+- Keterangan: Membuat jadwal pengingat konsumsi obat.
+
+### Mengubah Pengingat
+
+- Metode: PUT
+- Alamat: `/reminders/:id`
+- Keterangan: Mengubah jadwal pengingat berdasarkan ID.
+
+### Menghapus Pengingat
+
+- Metode: DELETE
+- Alamat: `/reminders/:id`
+- Keterangan: Menghapus jadwal pengingat berdasarkan ID.
+
+Catatan: Dokumen ini menjelaskan rancangan API. Ketersediaan setiap alamat perlu dicocokkan dengan implementasi backend.
