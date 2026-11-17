@@ -11,7 +11,7 @@ Branch `feature/fullstack-integration` menjadi ruang integrasi frontend, backend
 - **Dokumentasi:** `docs/`.
 - **Otomatisasi:** GitHub Actions pada `.github/workflows/`.
 
-Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Frontend telah dihubungkan ke API untuk autentikasi, pengelolaan obat, jadwal, dan riwayat. Seluruh data utama disimpan pada PostgreSQL, bukan lagi penyimpanan browser. Skema database sudah tersedia di `docs/database_schema.sql`, tetapi harus diterapkan pada proyek Neon yang digunakan sebelum aplikasi dapat dijalankan. Integrasi notifikasi saat browser tertutup dan pengujian end-to-end masih menjadi pekerjaan lanjutan. Jangan gunakan versi ini sebagai aplikasi produksi sebelum pengujian keamanan dan fungsional selesai.
+Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Frontend telah dihubungkan ke API untuk autentikasi, pengelolaan obat, jadwal, dan riwayat. Seluruh data utama disimpan pada PostgreSQL, bukan lagi penyimpanan browser. Skema database telah diterapkan dan diverifikasi pada branch `production` di proyek Neon `odette-medication-reminder` (database `neondb`) dengan tabel `users`, `medications`, `reminders`, dan `medication_logs`. Integrasi notifikasi saat browser tertutup dan pengujian end-to-end masih menjadi pekerjaan lanjutan. Jangan gunakan versi ini sebagai aplikasi produksi sebelum pengujian keamanan dan fungsional selesai.
 
 ## Persiapan backend
 
@@ -19,11 +19,13 @@ Persyaratan: Node.js 20 atau lebih baru, npm, dan database PostgreSQL.
 
 1. Masuk ke folder `server/`.
 2. Salin `.env.example` menjadi `.env`.
-3. Isi `DATABASE_URL` dengan connection string PostgreSQL, `JWT_SECRET` dengan nilai acak minimal 32 karakter, dan sesuaikan `CLIENT_ORIGIN`.
-4. Pasang dependensi dengan `npm ci`.
-5. Jalankan SQL pada `docs/database_schema.sql` di database pengembangan.
-6. Jalankan pemeriksaan sintaks dengan `npm run check`.
-7. Jalankan API dengan `npm start`.
+3. Ambil connection string dari Neon Console melalui tombol **Connect**, pilih branch `production`, database `neondb`, lalu salin connection string (gunakan opsi pooled jika tersedia).
+4. Isi `DATABASE_URL` di `server/.env` dengan connection string tersebut. Buat `JWT_SECRET` acak minimal 32 karakter dan sesuaikan `CLIENT_ORIGIN`.
+5. Pastikan `server/.env` tidak diunggah ke GitHub. File `.env` sudah diabaikan oleh `.gitignore`.
+6. Pasang dependensi dengan `npm ci`.
+7. Jalankan pemeriksaan sintaks dengan `npm run check` dan pengujian dengan `npm test`.
+8. Jalankan API dengan `npm start`.
+9. Buka `http://localhost:5000/api/v1/health`. Respons yang diharapkan: `{"status":"ok","database":"connected"}`.
 
 API lokal: `http://localhost:5000`. Pemeriksaan koneksi database: `GET /api/v1/health`.
 
