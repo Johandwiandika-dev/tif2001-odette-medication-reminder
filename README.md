@@ -11,7 +11,7 @@ Branch `feature/fullstack-integration` menjadi ruang integrasi frontend, backend
 - **Dokumentasi:** `docs/`.
 - **Otomatisasi:** GitHub Actions pada `.github/workflows/`.
 
-Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Formulir pendaftaran dan login frontend sudah memakai API backend. Namun, data obat, jadwal, dan riwayat pada antarmuka masih menggunakan penyimpanan browser dan belum tersinkron ke API. Integrasi data tersebut masih menjadi pekerjaan lanjutan. Jangan gunakan versi ini sebagai aplikasi produksi.
+Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Frontend telah dihubungkan ke API untuk autentikasi, pengelolaan obat, jadwal, dan riwayat. Seluruh data utama disimpan pada PostgreSQL, bukan lagi penyimpanan browser. Skema database sudah tersedia di `docs/database_schema.sql`, tetapi harus diterapkan pada proyek Neon yang digunakan sebelum aplikasi dapat dijalankan. Integrasi notifikasi saat browser tertutup dan pengujian end-to-end masih menjadi pekerjaan lanjutan. Jangan gunakan versi ini sebagai aplikasi produksi sebelum pengujian keamanan dan fungsional selesai.
 
 ## Persiapan backend
 
