@@ -1,39 +1,64 @@
 require('dotenv').config();
+
 const express = require('express');
-const { Pool } = require('pg');
+const pool = require('./db');
+const requireAuth = require('./middleware/auth');
+const authRoutes = require('./routes/auth');
+const medicationRoutes = require('./routes/medications');
+const reminderRoutes = require('./routes/reminders');
 
 const app = express();
-// Mengambil PORT dari .env, atau menggunakan port 5000 sebagai cadangan
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
+const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5500';
 
-// Konfigurasi koneksi database PostgreSQL menggunakan connection string dari .env
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+app.disable('x-powered-by');
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  const origin = req.headers.origin;
+  if (origin && origin === allowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
 });
+app.use(express.json({ limit: '20kb' }));
 
-// Middleware untuk memparsing body berformat JSON
-app.use(express.json());
-
-// Endpoint untuk menguji koneksi ke database Neon PostgreSQL
-app.get('/test-db', async (req, res) => {
+app.get('/', (_req, res) => res.json({ name: 'Odette Medication Reminder API', status: 'running' }));
+app.get('/api/v1/health', async (_req, res) => {
   try {
-    const result = await pool.query('SELECT NOW()');
-    res.status(200).json({
-      message: 'Koneksi database Neon berhasil!',
-      currentTime: result.rows[0].now,
-    });
-  } catch (err) {
-    console.error('Gagal terhubung ke database:', err);
-    res.status(500).json({ error: 'Gagal terhubung ke database PostgreSQL' });
+    await pool.query('SELECT 1');
+    res.json({ status: 'ok', database: 'connected' });
+  } catch {
+    res.status(503).json({ status: 'error', database: 'unavailable' });
   }
 });
 
-// Endpoint utama
-app.get('/', (req, res) => {
-  res.send('Server Express.js & Neon PostgreSQL berjalan dengan baik!');
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/medications', requireAuth, medicationRoutes);
+app.use('/api/v1/reminders', requireAuth, reminderRoutes);
+
+app.use((req, res) => res.status(404).json({ message: 'Alamat API tidak ditemukan.' }));
+app.use((error, _req, res, _next) => {
+  console.error('Kesalahan API:', error.message);
+  if (error.type === 'entity.too.large') return res.status(413).json({ message: 'Ukuran data terlalu besar.' });
+  res.status(500).json({ message: 'Terjadi kesalahan pada server.' });
 });
 
-// Menjalankan server
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  const server = app.listen(PORT, () => console.log(`Odette API berjalan pada port ${PORT}`));
+  const shutdown = async () => {
+    server.close(async () => {
+      await pool.end();
+      process.exit(0);
+    });
+  };
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
+}
+
+module.exports = app;
