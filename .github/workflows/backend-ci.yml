@@ -29,3 +29,6 @@ jobs:
 
       - name: Memeriksa sintaks JavaScript
         run: npm run check
+
+      - name: Menjalankan pengujian backend
+        run: npm test
