@@ -1,23 +1,23 @@
 ---
-name: Feature Request
-about: Usulkan fitur atau peningkatan untuk aplikasi
-title: "[FEATURE] "
+name: Usulan Fitur
+about: Usulkan fitur baru atau peningkatan untuk aplikasi
+title: "[FITUR] "
 labels: enhancement
 assignees: ""
 ---
 
-## Description
+## Penjelasan Usulan
 
 Jelaskan fitur yang ingin ditambahkan.
 
-## Problem
+## Masalah atau Kebutuhan
 
 Jelaskan masalah atau kebutuhan yang ingin diselesaikan.
 
-## Proposed Solution
+## Solusi yang Diusulkan
 
-Jelaskan solusi atau fitur yang diusulkan.
+Jelaskan cara kerja fitur atau solusi yang diharapkan.
 
-## Additional Context
+## Informasi Tambahan
 
-Tambahkan informasi atau screenshot jika diperlukan.
+Tambahkan informasi, contoh, atau tangkapan layar jika diperlukan.
