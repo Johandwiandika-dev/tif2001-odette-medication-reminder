@@ -2,7 +2,7 @@ name: Pemeriksaan Frontend
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/fullstack-integration]
   pull_request:
     branches: [main]
 
