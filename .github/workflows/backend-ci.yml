@@ -1,0 +1,31 @@
+name: Pemeriksaan Backend
+
+on:
+  push:
+    branches: [main, feature/fullstack-integration]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Pemeriksaan backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - name: Mengambil kode repository
+        uses: actions/checkout@v4
+
+      - name: Menyiapkan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Memasang dependensi
+        run: npm ci
+
+      - name: Memeriksa sintaks JavaScript
+        run: npm run check
