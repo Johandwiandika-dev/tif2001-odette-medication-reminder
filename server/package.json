@@ -1,4 +1,17 @@
 {
+  "name": "odette-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend API Odette Medication Reminder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "check": "node --check index.js && node --check db.js && node --check middleware/auth.js && node --check routes/auth.js && node --check routes/medications.js && node --check routes/reminders.js && node --check utils/token.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "dotenv": "^18.0.7",
     "express": "^5.3.0",
