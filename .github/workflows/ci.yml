@@ -1,5 +1,4 @@
-
-name: CI
+name: Pemeriksaan Repository
 
 on:
   push:
@@ -9,18 +8,18 @@ on:
 
 jobs:
   validate:
-    name: Validate repository structure
+    name: Memeriksa susunan repository
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Mengambil kode repository
         uses: actions/checkout@v4
 
-      - name: Check required files
+      - name: Memeriksa berkas wajib
         run: |
           test -f README.md
           test -f docs/api_specifications.md
           test -f docs/database_schema.sql
           test -f client/.env.example
           test -f server/.env.example
-          echo "Repository structure validation passed."
+          echo "Pemeriksaan susunan repository berhasil."
