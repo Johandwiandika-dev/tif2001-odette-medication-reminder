@@ -50,4 +50,11 @@ router.post('/reminders/:id/logs', async (req, res, next) => {
   } catch (error) { next(error); }
 });
 
+router.delete('/', async (req, res, next) => {
+  try {
+    await pool.query('DELETE FROM medication_logs WHERE user_id = $1', [req.user.id]);
+    res.json({ message: 'Riwayat konsumsi berhasil dihapus.' });
+  } catch (error) { next(error); }
+});
+
 module.exports = router;
