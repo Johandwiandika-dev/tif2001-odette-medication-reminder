@@ -1,203 +1,76 @@
 # Odette Medication Reminder
 
-## 1. Gambaran Umum Proyek
+Odette adalah aplikasi pengelolaan data obat, jadwal pengingat, dan riwayat konsumsi obat. Repository ini dikembangkan untuk mata kuliah Software Development (TIF2001).
 
-**Odette Medication Reminder** adalah proyek aplikasi pengingat konsumsi obat yang dikembangkan untuk membantu pengguna mengelola data obat dan jadwal pengingat secara lebih teratur.
+## Status pengembangan
 
-Proyek ini dikembangkan sebagai bagian dari mata kuliah **Software Development (TIF2001)** dengan menerapkan kolaborasi tim menggunakan Git dan GitHub.
+Branch `feature/fullstack-integration` menjadi ruang integrasi frontend, backend, dan PostgreSQL. Implementasi saat ini terdiri dari:
+- **Frontend:** HTML, CSS, dan JavaScript pada `client/` (belum menggunakan React/Vite).
+- **Backend:** Node.js dan Express 5 pada `server/`.
+- **Database:** PostgreSQL melalui Neon.
+- **Dokumentasi:** `docs/`.
+- **Otomatisasi:** GitHub Actions pada `.github/workflows/`.
 
-### Tujuan Proyek
+Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Frontend yang ada masih berupa prototipe berbasis penyimpanan browser dan belum seluruhnya dihubungkan ke API. Jangan gunakan data prototipe sebagai penyimpanan akun produksi.
 
-- Membantu pengguna mencatat dan mengelola data obat.
-- Menyediakan fitur pengelolaan jadwal pengingat konsumsi obat.
-- Menyediakan autentikasi pengguna melalui pendaftaran dan masuk ke akun.
-- Membangun aplikasi dengan pemisahan frontend, backend, dan dokumentasi.
-- Menerapkan pengelolaan versi kode, peninjauan kode, serta pemeriksaan otomatis melalui GitHub Actions.
+## Persiapan backend
 
-### Fitur yang Direncanakan
+Persyaratan: Node.js 20 atau lebih baru, npm, dan database PostgreSQL.
 
-- Pendaftaran pengguna dan masuk ke akun.
-- Pengelolaan data obat.
-- Pengaturan jadwal pengingat konsumsi obat.
-- Pemeriksaan isian formulir pada frontend.
-- API backend dan integrasi database PostgreSQL.
+1. Masuk ke folder `server/`.
+2. Salin `.env.example` menjadi `.env`.
+3. Isi `DATABASE_URL` dengan connection string PostgreSQL, `JWT_SECRET` dengan nilai acak minimal 32 karakter, dan sesuaikan `CLIENT_ORIGIN`.
+4. Pasang dependensi dengan `npm ci`.
+5. Jalankan SQL pada `docs/database_schema.sql` di database pengembangan.
+6. Jalankan pemeriksaan sintaks dengan `npm run check`.
+7. Jalankan API dengan `npm start`.
 
-*Catatan: fitur-fitur tersebut merupakan target pengembangan dan belum tentu seluruhnya tersedia pada versi saat ini.*
+API lokal: `http://localhost:5000`. Pemeriksaan koneksi database: `GET /api/v1/health`.
 
-## 2. Teknologi yang Digunakan
+## Konfigurasi lingkungan
 
-Teknologi yang direncanakan untuk pengembangan proyek ini meliputi:
+Backend menggunakan:
+- `PORT`: port layanan (default 5000).
+- `DATABASE_URL`: connection string PostgreSQL.
+- `JWT_SECRET`: rahasia penandatangan token minimal 32 karakter.
+- `CLIENT_ORIGIN`: origin frontend yang diizinkan oleh CORS.
+- `NODE_ENV`: lingkungan aplikasi.
 
-- **Frontend:** React dan Vite.
-- **Backend:** Node.js dan Express.js.
-- **Database:** PostgreSQL menggunakan Neon.
-- **Pengelolaan versi kode:** Git dan GitHub.
-- **DevOps:** GitHub Actions untuk pemeriksaan repository dan pengembangan CI.
-- **API:** REST API.
+Jangan pernah mengunggah file `.env`. Gunakan `.env.example` hanya sebagai contoh nama variabel.
 
-## 3. Susunan Folder Repository
-
-```text
-tif2001-odette-medication-reminder/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md
-│   │   └── feature_request.md
-│   ├── workflows/
-│   │   └── ci.yml
-│   └── pull_request_template.md
-├── client/
-│   └── .env.example
-├── server/
-│   └── .env.example
-├── docs/
-│   ├── api_specifications.md
-│   └── database_schema.sql
-├── .gitignore
-├── LICENSE
-└── README.md
-```
-
-### Keterangan Folder dan Berkas
-
-- `client/`: tempat pengembangan antarmuka pengguna atau frontend.
-- `server/`: tempat pengembangan backend, API, autentikasi, dan koneksi database.
-- `docs/`: menyimpan dokumentasi API dan rancangan struktur database.
-- `.github/ISSUE_TEMPLATE/`: contoh formulir untuk melaporkan bug dan mengusulkan fitur.
-- `.github/workflows/`: pengaturan alur kerja otomatis GitHub Actions.
-- `.github/pull_request_template.md`: panduan pengisian permintaan penggabungan perubahan.
-- `.env.example`: contoh nama variabel konfigurasi tanpa kredensial asli.
-- `.gitignore`: menentukan berkas dan folder yang tidak boleh dilacak oleh Git.
-
-## 4. Persiapan Lingkungan Pengembangan
-
-### Perangkat yang Dibutuhkan
-
-Persiapan pengembangan memerlukan:
-
-- Git.
-- Node.js dan npm untuk pengembangan aplikasi berbasis JavaScript.
-- Akun GitHub.
-- Akses ke database PostgreSQL Neon saat integrasi database diperlukan.
-
-### Variabel Konfigurasi
-
-Sebelum aplikasi dijalankan, konfigurasi lingkungan perlu disiapkan berdasarkan berkas contoh berikut:
-
-- Frontend: `client/.env.example`
-- Backend: `server/.env.example`
-
-Untuk konfigurasi lokal, buat berkas bernama `.env` pada folder terkait dan isi dengan nilai konfigurasi yang sesuai.
-
-Contoh variabel frontend:
-
-```env
-VITE_API_BASE_URL=http://localhost:5000/api/v1
-```
-
-Contoh variabel backend:
-
-```env
-PORT=5000
-DATABASE_URL=your_postgresql_connection_string
-JWT_SECRET=your_long_random_secret
-NODE_ENV=development
-```
-
-Ganti nilai contoh dengan konfigurasi lokal yang benar. Jangan menaruh kata sandi database, JWT secret, atau kredensial asli di README, repository publik, maupun berkas `.env.example`.
-
-Pastikan berkas `.env` diabaikan oleh `.gitignore` dan tidak ikut disimpan atau dikirim ke GitHub.
-
-### Dokumentasi Teknis
-
-Dokumentasi awal proyek tersedia di:
-
-- `docs/api_specifications.md` — rancangan alamat dan fungsi API.
-- `docs/database_schema.sql` — struktur database PostgreSQL.
-
-Dokumentasi tersebut perlu diperbarui apabila rancangan API atau database berubah selama pengembangan.
-
-## 5. Alur Kerja Git dan Permintaan Penggabungan
-
-Proyek ini menggunakan Git dan GitHub untuk kolaborasi serta pengelolaan perubahan kode.
-
-### Tahapan Pengerjaan
-
-1. Sinkronkan branch utama dengan repository GitHub.
-2. Buat branch baru untuk setiap tugas atau perbaikan.
-3. Lakukan perubahan sesuai issue yang dikerjakan.
-4. Simpan perubahan dengan commit dan pesan yang jelas.
-5. Kirim branch ke GitHub menggunakan push.
-6. Buat Pull Request menuju branch `main`.
-7. Minta anggota tim meninjau dan menyetujui perubahan.
-8. Perbaiki perubahan jika diperlukan.
-9. Gabungkan Pull Request setelah persyaratan peninjauan terpenuhi.
-10. Sinkronkan kembali branch lokal dengan `main`.
-
-### Aturan Penamaan Branch
-
-Gunakan awalan nama branch sesuai jenis pekerjaan, misalnya:
-
-- `feat/` — penambahan fitur.
-- `fix/` — perbaikan kesalahan.
-- `docs/` — perubahan dokumentasi.
-- `ci/` — konfigurasi pemeriksaan otomatis.
-- `chore/` — pemeliharaan repository.
-
-Contoh: `docs/update-readme`.
-
-### Aturan Pesan Commit
-
-Gunakan awalan pesan yang konsisten:
-
-- `feat:` untuk fitur baru.
-- `fix:` untuk perbaikan.
-- `docs:` untuk dokumentasi.
-- `ci:` untuk konfigurasi pemeriksaan otomatis.
-- `chore:` untuk pemeliharaan repository.
-
-Contoh:
+## Struktur repository
 
 ```text
-docs: perbarui dokumentasi proyek
+.github/
+  workflows/       Pemeriksaan otomatis
+client/            Antarmuka pengguna
+server/
+  middleware/      Middleware autentikasi
+  routes/          Endpoint API
+  utils/           Utilitas token
+  db.js            Koneksi PostgreSQL
+  index.js         Titik masuk API
+docs/
+  api_specifications.md
+  database_schema.sql
 ```
 
-Perubahan ke `main` harus mengikuti aturan perlindungan branch dan proses peninjauan repository. Jangan memasukkan kredensial atau berkas konfigurasi rahasia ke dalam commit.
+## Alur kerja Git
 
-## 6. Peran dan Tanggung Jawab Tim
+1. Kerjakan perubahan pada branch fitur, bukan langsung pada `main`.
+2. Gunakan commit yang menjelaskan perubahan.
+3. Periksa hasil CI dan tinjau diff sebelum membuat Pull Request.
+4. Gabungkan ke `main hanya setelah pemeriksaan dan persetujuan.
 
-Pembagian tanggung jawab tim:
+## Keamanan
 
-| Anggota | Peran | Tanggung Jawab |
-|---|---|---|
-| Citra Mayang Sari | Pengembang Frontend | Mengembangkan antarmuka pengguna, komponen frontend, dan pemeriksaan formulir di sisi pengguna. |
-| Muhammad Faris Izzan Yasyfa | Pengembang Backend | Mengembangkan API, autentikasi, logika aplikasi, dan integrasi database. |
-| Johan Dwi Andika | Pengelola DevOps | Mengelola repository, alur kerja GitHub Actions, konfigurasi lingkungan, dokumentasi teknis, dan tata cara kolaborasi Git. |
+- Jangan menyimpan kredensial atau file `.env` di repository.
+- Jika kredensial pernah terunggah, rotasi kredensial tersebut.
+- Jangan menyimpan password pengguna dalam bentuk teks biasa.
+- Endpoint privat memerlukan token dan memeriksa kepemilikan data.
+- Gunakan HTTPS dan pengelolaan rahasia yang aman saat deployment.
 
-Setiap anggota bertanggung jawab menjaga kualitas perubahan, mengikuti alur Pull Request, dan berkoordinasi melalui GitHub Issues serta GitHub Projects.
+## Dokumentasi
 
-## 7. DevOps dan Pemeriksaan Otomatis (CI)
-
-Repository menggunakan GitHub Actions untuk menjalankan pemeriksaan otomatis terhadap susunan dan berkas penting repository.
-
-Alur kerja saat ini memeriksa keberadaan beberapa berkas dokumentasi dan contoh konfigurasi lingkungan.
-
-Pemeriksaan susunan repository ini merupakan langkah awal CI dan **belum sama dengan pengujian otomatis aplikasi, pemeriksaan kualitas kode, atau pengujian integrasi database**. Pemeriksaan tersebut dapat ditambahkan ketika kode frontend dan backend sudah tersedia.
-
-## 8. Pengelolaan Proyek
-
-GitHub Issues digunakan untuk mencatat tugas, kebutuhan fitur, dan bug. GitHub Projects digunakan untuk memantau status pekerjaan serta pembagian tugas anggota tim.
-
-Setiap perubahan sebaiknya terkait dengan issue yang relevan dan diajukan melalui Pull Request agar riwayat perubahan dapat ditinjau.
-
-## 9. Catatan Keamanan
-
-- Jangan menyimpan berkas `.env` yang berisi kredensial asli ke repository.
-- Jangan menampilkan kata sandi database atau JWT secret dalam dokumentasi.
-- Gunakan `.env.example` hanya untuk nama variabel dan nilai contoh.
-- Jika kredensial terungkap, segera ganti kredensial tersebut.
-- Tinjau perubahan sebelum menggabungkan Pull Request ke `main`.
-
-## 10. Status Proyek
-
-Proyek berada dalam tahap pengembangan. Struktur awal repository, dokumentasi dasar, dan konfigurasi pemeriksaan repository menjadi fondasi untuk pengembangan frontend, backend, autentikasi, serta integrasi database selanjutnya.
+- [Spesifikasi API](docs/api_specifications.md)
+- [Skema database](docs/database_schema.sql)
