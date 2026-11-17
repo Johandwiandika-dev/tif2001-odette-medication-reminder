@@ -90,7 +90,7 @@ Jangan pernah mengirim berkas `.env`, kata sandi database, token, atau kunci rah
    - `chore/`: pemeliharaan repository.
 4. Kerjakan perubahan dan simpan dengan commit yang jelas.
 5. Kirim branch ke GitHub.
-6. Buat Pull Request dengan tujuan `main).
+6. Buat Pull Request dengan tujuan branch `main`.
 7. Minta anggota tim meninjau perubahan.
 8. Pastikan seluruh pemeriksaan otomatis berhasil.
 9. Gabungkan Pull Request setelah persyaratan peninjauan terpenuhi.
@@ -115,7 +115,7 @@ Jangan mengerjakan fitur langsung pada `main`. Setiap perubahan harus melalui Pu
 
 ## 7. Pemeriksaan Otomatis
 
-GitHub Actions menjalankan beberapa pemeriksaan ketika ada perubahan yang dikirim atau Pull Request dibuat menuju `main`:
+GitHub Actions menjalankan beberapa pemeriksaan ketika ada perubahan yang dikirim atau Pull Request dibuat menuju branch `main`:
 
 - **Pemeriksaan repository:** memastikan berkas penting tersedia dan berkas rahasia `.env` tidak ikut tersimpan.
 - **Pemeriksaan frontend:** memasang dependensi, menjalankan pengujian Jest, ESLint, dan pemeriksaan format.
