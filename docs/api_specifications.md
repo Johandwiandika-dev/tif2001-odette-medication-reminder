@@ -91,3 +91,7 @@ Kesalahan dikembalikan sebagai JSON dengan properti `message`. Kode umum: 400 (d
 - Token harus disimpan dan dikirim dengan perlindungan yang sesuai.
 - API membatasi akses data berdasarkan ID pengguna dari token, bukan ID pengguna yang dikirim browser.
 - Gunakan HTTPS saat aplikasi dipasang di lingkungan produksi.
+
+### DELETE `/history`
+
+Menghapus seluruh riwayat konsumsi milik pengguna yang sedang masuk.
