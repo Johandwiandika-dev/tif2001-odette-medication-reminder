@@ -1,29 +1,29 @@
 ---
-name: Bug Report
-about: Laporkan bug atau masalah pada aplikasi
+name: Laporan Bug
+about: Laporkan kesalahan atau masalah pada aplikasi
 title: "[BUG] "
 labels: bug
 assignees: ""
 ---
 
-## Description
+## Penjelasan Masalah
 
-Jelaskan bug yang ditemukan.
+Jelaskan kesalahan yang ditemukan. Sertakan bagian aplikasi yang mengalami masalah.
 
-## Steps to Reproduce
+## Langkah Mengulangi Masalah
 
 1.
 2.
 3.
 
-## Expected Behavior
+## Hasil yang Diharapkan
 
 Jelaskan hasil yang seharusnya terjadi.
 
-## Actual Behavior
+## Hasil yang Terjadi
 
-Jelaskan hasil yang sebenarnya terjadi.
+Jelaskan hasil yang benar-benar muncul.
 
-## Evidence / Screenshots
+## Bukti atau Tangkapan Layar
 
-Tambahkan screenshot jika diperlukan.
+Tambahkan tangkapan layar atau bukti lain jika diperlukan.
