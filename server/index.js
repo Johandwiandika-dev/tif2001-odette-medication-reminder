@@ -6,6 +6,7 @@ const requireAuth = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
 const medicationRoutes = require('./routes/medications');
 const reminderRoutes = require('./routes/reminders');
+const historyRoutes = require('./routes/history');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -41,6 +42,7 @@ app.get('/api/v1/health', async (_req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/medications', requireAuth, medicationRoutes);
 app.use('/api/v1/reminders', requireAuth, reminderRoutes);
+app.use('/api/v1/history', requireAuth, historyRoutes);
 
 app.use((req, res) => res.status(404).json({ message: 'Alamat API tidak ditemukan.' }));
 app.use((error, _req, res, _next) => {
