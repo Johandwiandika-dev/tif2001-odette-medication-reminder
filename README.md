@@ -11,7 +11,7 @@ Branch `feature/fullstack-integration` menjadi ruang integrasi frontend, backend
 - **Dokumentasi:** `docs/`.
 - **Otomatisasi:** GitHub Actions pada `.github/workflows/`.
 
-Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Frontend yang ada masih berupa prototipe berbasis penyimpanan browser dan belum seluruhnya dihubungkan ke API. Jangan gunakan data prototipe sebagai penyimpanan akun produksi.
+Backend menyediakan endpoint pendaftaran dan login, CRUD obat, CRUD pengingat, riwayat konsumsi, serta pemeriksaan kesehatan layanan. Formulir pendaftaran dan login frontend sudah memakai API backend. Namun, data obat, jadwal, dan riwayat pada antarmuka masih menggunakan penyimpanan browser dan belum tersinkron ke API. Integrasi data tersebut masih menjadi pekerjaan lanjutan. Jangan gunakan versi ini sebagai aplikasi produksi.
 
 ## Persiapan backend
 
