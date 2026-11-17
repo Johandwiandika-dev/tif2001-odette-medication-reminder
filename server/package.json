@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "check": "node --check index.js && node --check db.js && node --check middleware/auth.js && node --check routes/auth.js && node --check routes/medications.js && node --check routes/reminders.js && node --check utils/token.js && node --check routes/history.js"
+    "check": "node --check index.js && node --check db.js && node --check middleware/auth.js && node --check routes/auth.js && node --check routes/medications.js && node --check routes/reminders.js && node --check utils/token.js && node --check routes/history.js && node --check utils/token.test.js",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=20"
