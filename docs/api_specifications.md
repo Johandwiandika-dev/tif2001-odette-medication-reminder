@@ -1,77 +1,93 @@
-# Spesifikasi API
+# Spesifikasi API Odette
 
-## Proyek
+Alamat dasar lokal: `http://localhost:5000/api/v1`.
 
-TIF2001 Odette Medication Reminder
+Semua permintaan yang memerlukan akun harus mengirim header:
+`Authorization: Bearer <token>`.
 
-## Alamat Dasar API
+Format data dan waktu menggunakan JSON. Tanggal menggunakan `YYYY-MM-DD`, sedangkan waktu menggunakan `HH:mm`.
 
-`http://localhost:5000/api/v1`
+## Pemeriksaan layanan
 
-## Autentikasi Pengguna
+| Metode | Alamat | Akses | Keterangan |
+|---|---|---|---|
+| GET | `/health` | Publik | Memeriksa API dan koneksi PostgreSQL. |
 
-### Pendaftaran Akun
+## Autentikasi
 
-- Metode: POST
-- Alamat: `/auth/register`
-- Keterangan: Mendaftarkan pengguna baru.
+### POST `/auth/register`
 
-### Masuk ke Akun
+Isi: `{ "name": "Nama", "email": "nama@email.com", "password": "minimal-8-karakter" }`.
 
-- Metode: POST
-- Alamat: `/auth/login`
-- Keterangan: Memeriksa identitas pengguna dan mengembalikan token JWT jika berhasil.
+Mengembalikan data pengguna tanpa hash kata sandi dan token akses.
 
-## Data Obat
+### POST `/auth/login`
 
-### Melihat Daftar Obat
+Isi: `{ "email": "nama@email.com", "password": "kata-sandi" }`.
 
-- Metode: GET
-- Alamat: `/medications`
-- Keterangan: Mengambil daftar obat milik pengguna yang sudah terautentikasi.
+Mengembalikan data pengguna dan token akses apabila kredensial benar.
 
-### Menambahkan Obat
+Token berlaku selama 24 jam. Kata sandi disimpan sebagai hash scrypt dengan salt acak, bukan teks biasa.
 
-- Metode: POST
-- Alamat: `/medications`
-- Keterangan: Menambahkan data obat baru.
+## Obat
 
-### Mengubah Data Obat
+Semua alamat berikut memerlukan autentikasi.
 
-- Metode: PUT
-- Alamat: `/medications/:id`
-- Keterangan: Mengubah informasi obat berdasarkan ID.
+### GET `/medications`
 
-### Menghapus Data Obat
+Mengambil daftar obat milik pengguna yang sedang masuk.
 
-- Metode: DELETE
-- Alamat: `/medications/:id`
-- Keterangan: Menghapus data obat berdasarkan ID.
+### POST `/medications`
 
-## Jadwal Pengingat
+Isi: `{ "name": "Vitamin", "dosage": "1 tablet", "description": "Catatan" }`.
 
-### Melihat Daftar Pengingat
+### PUT `/medications/:id`
 
-- Metode: GET
-- Alamat: `/reminders`
-- Keterangan: Mengambil daftar pengingat milik pengguna yang sudah terautentikasi.
+Mengubah nama, dosis, dan deskripsi obat milik pengguna.
 
-### Menambahkan Pengingat
+### DELETE `/medications/:id`
 
-- Metode: POST
-- Alamat: `/reminders`
-- Keterangan: Membuat jadwal pengingat konsumsi obat.
+Menghapus obat milik pengguna. Pengingat dan riwayat terkait mengikuti aturan penghapusan berantai pada basis data.
 
-### Mengubah Pengingat
+## Pengingat
 
-- Metode: PUT
-- Alamat: `/reminders/:id`
-- Keterangan: Mengubah jadwal pengingat berdasarkan ID.
+### GET `/reminders`
 
-### Menghapus Pengingat
+Mengambil jadwal pengingat milik pengguna.
 
-- Metode: DELETE
-- Alamat: `/reminders/:id`
-- Keterangan: Menghapus jadwal pengingat berdasarkan ID.
+### POST `/reminders`
 
-Catatan: Dokumen ini menjelaskan rancangan API. Ketersediaan setiap alamat perlu dicocokkan dengan implementasi backend.
+Isi: `{ "medication_id": 1, "reminder_time": "08:00", "dose": "1 tablet", "frequency": "Setiap Hari", "start_date": "2026-11-18", "end_date": null }`.
+
+Frekuensi yang didukung: `Setiap Hari`, `Hari kerja`, dan `Satu kali`.
+
+### PUT `/reminders/:id`
+
+Mengubah pengingat. Isi data mengikuti format pembuatan pengingat dan dapat menyertakan `is_active`.
+
+### DELETE `/reminders/:id`
+
+Menghapus pengingat milik pengguna.
+
+## Riwayat konsumsi
+
+### GET `/history`
+
+Mengambil riwayat konsumsi milik pengguna.
+
+### POST `/history/reminders/:id/logs`
+
+Isi: `{ "taken_on": "2026-11-18", "status": "Diminum", "notes": "" }`.
+
+Status yang didukung: `Diminum` atau `Terlewat`. Satu pengingat hanya memiliki satu catatan per tanggal; pengiriman ulang pada tanggal yang sama memperbarui catatan.
+
+## Format kesalahan
+
+Kesalahan dikembalikan sebagai JSON dengan properti `message`. Kode umum: 400 (data tidak valid), 401 (belum masuk atau token tidak valid), 404 (data tidak ditemukan), 409 (email sudah digunakan), dan 500 (kesalahan server).
+
+## Catatan keamanan
+
+- Jangan mengirim kata sandi database atau rahasia token ke frontend.
+- Token harus disimpan dan dikirim dengan perlindungan yang sesuai.
+- API membatasi akses data berdasarkan ID pengguna dari token, bukan ID pengguna yang dikirim browser.
+- Gunakan HTTPS saat aplikasi dipasang di lingkungan produksi.
