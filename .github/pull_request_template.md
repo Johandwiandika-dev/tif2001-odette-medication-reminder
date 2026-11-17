@@ -1,25 +1,28 @@
-## Description
+## Ringkasan Perubahan
 
-<!-- Jelaskan perubahan yang dibuat pada Pull Request ini. -->
+<!-- Jelaskan perubahan yang dibuat pada permintaan penggabungan ini. -->
 
-## Type of Change
+## Jenis Perubahan
 
-- [ ] feat
-- [ ] fix
-- [ ] refactor
-- [ ] test
-- [ ] docs/chore
+Pilih jenis perubahan yang sesuai:
 
-## Related Issue
+- [ ] feat: menambahkan fitur baru
+- [ ] fix: memperbaiki kesalahan
+- [ ] refactor: merapikan kode tanpa mengubah fungsi
+- [ ] test: menambah atau memperbaiki pengujian
+- [ ] docs/chore: memperbarui dokumentasi atau pemeliharaan proyek
 
-Closes #
+## Issue Terkait
 
-## Developer Checklist
+Tulis nomor issue yang berkaitan, contoh: Closes #12
 
-- [ ] Local testing pass
-- [ ] No sensitive credentials or .env
-- [ ] Linting/naming conventions
+## Daftar Pemeriksaan Pengembang
 
-## Evidence / Screenshots
+- [ ] Perubahan sudah diuji di komputer lokal.
+- [ ] Tidak ada kata sandi, kunci rahasia, atau berkas .env yang ikut disertakan.
+- [ ] Pemeriksaan kode dan aturan penamaan sudah diperhatikan.
+- [ ] Perubahan tidak merusak fungsi yang sudah ada.
 
-<!-- Tambahkan screenshot jika diperlukan. -->
+## Bukti atau Tangkapan Layar
+
+<!-- Tambahkan tangkapan layar jika perubahan memengaruhi tampilan aplikasi. -->

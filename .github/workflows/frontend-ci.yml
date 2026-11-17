@@ -1,4 +1,4 @@
-name: Frontend CI
+name: Pemeriksaan Frontend
 
 on:
   push:
@@ -6,28 +6,36 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   frontend:
+    name: Menguji dan memeriksa frontend
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: client
+
     steps:
-      - name: Check out repository
+      - name: Mengambil kode repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Menyiapkan Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: client/package-lock.json
 
-      - name: Install dependencies
+      - name: Memasang dependensi
         run: npm ci
 
-      - name: Lint frontend
+      - name: Menjalankan pengujian unit
+        run: npm test -- --runInBand
+
+      - name: Memeriksa kualitas kode
         run: npm run lint
 
-      - name: Check formatting
+      - name: Memeriksa format kode
         run: npm run format:check
