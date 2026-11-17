@@ -32,3 +32,6 @@ jobs:
 
       - name: Memeriksa kerapian format kode
         run: npm run format:check
+
+      - name: Menjalankan pengujian frontend
+        run: npm test -- --runInBand
