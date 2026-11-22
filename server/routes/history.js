@@ -53,11 +53,7 @@ router.get('/', async (req, res, next) => {
 router.post('/reminders/:id/logs', async (req, res, next) => {
   try {
     const reminderId = Number(req.params.id);
-    const {
-      taken_on,
-      status,
-      notes = '',
-    } = req.body;
+    const { taken_on, status, notes = '' } = req.body;
 
     if (!Number.isInteger(reminderId) || reminderId <= 0) {
       return res.status(400).json({
@@ -81,15 +77,11 @@ router.post('/reminders/:id/logs', async (req, res, next) => {
       });
     }
 
-    // Memastikan pengingat milik pengguna yang login.
     const owned = await pool.query(
-      `SELECT
-         r.id,
-         r.medication_id
+      `SELECT r.id, r.medication_id
        FROM reminders r
        JOIN medications m ON m.id = r.medication_id
-       WHERE r.id = $1
-         AND m.user_id = $2`,
+       WHERE r.id = $1 AND m.user_id = $2`,
       [reminderId, req.user.id],
     );
 
@@ -101,7 +93,6 @@ router.post('/reminders/:id/logs', async (req, res, next) => {
 
     const medicationId = owned.rows[0].medication_id;
 
-    // Satu pengingat hanya memiliki satu catatan per tanggal.
     const result = await pool.query(
       `INSERT INTO medication_logs (
          user_id,
@@ -113,15 +104,8 @@ router.post('/reminders/:id/logs', async (req, res, next) => {
          notes
        )
        VALUES (
-         $1,
-         $2,
-         $3,
-         $4,
-         $5,
-         CASE
-           WHEN $5::varchar = 'Diminum' THEN NOW()
-           ELSE NULL
-         END,
+         $1, $2, $3, $4, $5,
+         CASE WHEN $5::varchar = 'Diminum' THEN NOW() ELSE NULL END,
          $6
        )
        ON CONFLICT (reminder_id, taken_on)
@@ -156,6 +140,46 @@ router.post('/reminders/:id/logs', async (req, res, next) => {
   }
 });
 
+// DELETE: Menghapus satu riwayat berdasarkan jadwal dan tanggal.
+router.delete('/reminders/:id/logs', async (req, res, next) => {
+  try {
+    const reminderId = Number(req.params.id);
+    const { taken_on } = req.body;
+
+    if (!Number.isInteger(reminderId) || reminderId <= 0) {
+      return res.status(400).json({
+        message: 'ID pengingat tidak valid.',
+      });
+    }
+
+    if (!validDate(taken_on)) {
+      return res.status(400).json({
+        message: 'Tanggal riwayat tidak valid.',
+      });
+    }
+
+    const result = await pool.query(
+      `DELETE FROM medication_logs
+       WHERE reminder_id = $1
+         AND user_id = $2
+         AND taken_on = $3`,
+      [reminderId, req.user.id, taken_on],
+    );
+
+    if (!result.rowCount) {
+      return res.status(404).json({
+        message: 'Riwayat untuk jadwal dan tanggal tersebut tidak ditemukan.',
+      });
+    }
+
+    res.json({
+      message: 'Status jadwal berhasil direset.',
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // DELETE: Menghapus seluruh riwayat milik pengguna.
 router.delete('/', async (req, res, next) => {
   try {
@@ -165,7 +189,7 @@ router.delete('/', async (req, res, next) => {
     );
 
     res.json({
-      message: 'Riwayat konsumsi berhasil dihapus.',
+      message: 'Seluruh riwayat konsumsi berhasil dihapus.',
     });
   } catch (error) {
     next(error);
