@@ -388,6 +388,50 @@ tr:last-child td{border-bottom:0}
   .schedule-item{flex-wrap:wrap}
   .schedule-actions{margin-left:60px}
 }
+
+/* Tema gelap */
+body[data-theme="dark"]{
+  --bg:#111827;--ink:#e5edf8;--muted:#9aa9bd;--line:#293548;
+  --blue-soft:#1d3456;--white:#182235;
+}
+body[data-theme="dark"] .auth-wrap{
+  background:radial-gradient(circle at 12% 12%,#1d3456 0,transparent 34%),radial-gradient(circle at 88% 86%,#1b3a34 0,transparent 30%),#111827
+}
+body[data-theme="dark"] .auth-card,
+body[data-theme="dark"] .sidebar,
+body[data-theme="dark"] .panel,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .user-pill,
+body[data-theme="dark"] .modal{background:#182235;color:var(--ink);border-color:var(--line)}
+body[data-theme="dark"] .field label,
+body[data-theme="dark"] .nav button,
+body[data-theme="dark"] .nav-label{color:var(--muted)}
+body[data-theme="dark"] .field input,
+body[data-theme="dark"] .field select,
+body[data-theme="dark"] .field textarea,
+body[data-theme="dark"] .toolbar input,
+body[data-theme="dark"] .toolbar select{background:#111a2a;color:var(--ink);border-color:#34445d}
+body[data-theme="dark"] th{background:#202d42;color:#a8b7ca}
+body[data-theme="dark"] td{border-color:#293548}
+body[data-theme="dark"] .schedule-item{border-color:#293548}
+body[data-theme="dark"] .btn-ghost,
+body[data-theme="dark"] .close{background:#26344a;color:#c4d2e5}
+body[data-theme="dark"] .btn-light{background:#203755;color:#8ebcff}
+body[data-theme="dark"] .btn-success{background:#173b32;color:#73d8ad}
+body[data-theme="dark"] .btn-warning{background:#44351e;color:#f2bf6d}
+body[data-theme="dark"] .btn-danger,
+body[data-theme="dark"] .icon-btn.del{background:#44262d;color:#f18a96}
+body[data-theme="dark"] .notice{background:#203755;color:#a6caff}
+body[data-theme="dark"] .icon-btn{background:#203755;color:#8ebcff}
+body[data-theme="dark"] .med-icon{background:#203755}
+body[data-theme="dark"] .avatar{background:#203755;color:#8ebcff}
+body[data-theme="dark"] .modal-backdrop{background:#030712b8}
+body[data-theme="dark"] .theme-toggle{background:#26344a;color:#f8d775;border-color:#35445a}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.theme-toggle{width:42px;height:42px;border-radius:12px;background:#fff;border:1px solid var(--line);color:#526177;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.theme-toggle:hover{transform:translateY(-1px)}
+@media(max-width:650px){.topbar-actions{gap:7px}.theme-toggle{width:38px;height:38px}}
+
 </style>
 </head>
 
@@ -481,12 +525,15 @@ tr:last-child td{border-bottom:0}
         <h1 class="page-title" id="pageTitle">Selamat datang!</h1>
       </div>
 
-      <div class="user-pill">
-        <div class="avatar" id="avatar">U</div>
-        <div>
-          <div class="user-name" id="userName"
-            style="font-size:12px;font-weight:800">Pengguna</div>
-          <div class="user-name muted" style="font-size:10px">Akun Odette</div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ganti tema" title="Ganti tema">🌙</button>
+        <div class="user-pill">
+          <div class="avatar" id="avatar">U</div>
+          <div>
+            <div class="user-name" id="userName"
+              style="font-size:12px;font-weight:800">Pengguna</div>
+            <div class="user-name muted" style="font-size:10px">Akun Odette</div>
+          </div>
         </div>
       </div>
     </header>
@@ -669,6 +716,29 @@ tr:last-child td{border-bottom:0}
 ========================================================= */
 
 const $ = id => document.getElementById(id);
+
+// =========================================================
+// PENGATURAN TEMA TERANG / GELAP
+// =========================================================
+const THEME_KEY = "odette_theme";
+function applyTheme(theme){
+  const chosen = theme === "dark" ? "dark" : "light";
+  document.body.setAttribute("data-theme", chosen);
+  const button = $("themeToggle");
+  if(button){
+    button.textContent = chosen === "dark" ? "☀️" : "🌙";
+    button.setAttribute("aria-label", chosen === "dark" ? "Aktifkan mode terang" : "Aktifkan mode gelap");
+    button.title = chosen === "dark" ? "Mode terang" : "Mode gelap";
+  }
+}
+const savedTheme = (()=>{try{return localStorage.getItem(THEME_KEY)||"light"}catch{return "light"}})();
+applyTheme(savedTheme);
+$("themeToggle")?.addEventListener("click",()=>{
+  const next = document.body.getAttribute("data-theme")==="dark" ? "light" : "dark";
+  applyTheme(next);
+  try{localStorage.setItem(THEME_KEY,next)}catch{}
+});
+
 
 const API_BASE_URL = (
   window.ODETTE_API_BASE_URL || "http://localhost:5000/api/v1"
