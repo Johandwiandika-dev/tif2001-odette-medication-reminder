@@ -1,0 +1,13 @@
+{
+  "name": "odette-medication-reminder",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "pg": "^8.23.1"
+  }
+}
