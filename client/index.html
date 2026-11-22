@@ -30,49 +30,22 @@ button,input,select,textarea{font:inherit}
 button{cursor:pointer;border:0}
 .hidden{display:none!important}
 
-.auth-wrap{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:#fff
-}
-.auth-brand{
-  padding:9%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  background:
-    radial-gradient(circle at 15% 15%,#d9ecff 0,transparent 35%),
-    linear-gradient(145deg,#f4f9ff,#e8f4ff)
-}
-.logo-icon{
-  display:grid;
-  place-items:center;
-  width:64px;
-  height:64px;
-  border-radius:20px;
-  background:var(--blue);
-  color:white;
-  font-size:30px;
-  box-shadow:0 12px 28px #2878f033
-}
-.brand-name{
-  font-size:32px;
-  font-weight:850;
-  letter-spacing:-1px;
-  margin:16px 0 3px
-}
-.brand-name span,.brand-small span{color:var(--blue)}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px;background:radial-gradient(circle at 12% 12%,#e4efff 0,transparent 34%),radial-gradient(circle at 88% 86%,#edf7f2 0,transparent 30%),#f5f8fc}
+.auth-brand{display:none}
+.auth-side{width:100%;display:grid;place-items:center;padding:0}
+.auth-card{width:min(420px,100%);padding:34px 32px 28px;background:#fff;border:1px solid #e7edf5;border-radius:24px;box-shadow:0 22px 65px #1e3a5a12}
+.auth-logo{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:30px}
+.auth-logo .logo-icon{width:58px;height:58px;border-radius:18px;font-size:27px}
+.auth-logo .brand-name{font-size:29px;margin:12px 0 0}
+.auth-card h1{font-size:25px;margin-bottom:7px;text-align:center}
+.auth-card #authSubtitle{text-align:center}
 .brand-sub{font-weight:700}
 .brand-desc{
   max-width:300px;
   color:var(--muted);
   line-height:1.6
 }
-.auth-side{display:grid;place-items:center;padding:28px}
-.auth-card{width:min(420px,100%)}
+
 h1,h2,h3,p{margin-top:0}
 .auth-card h1{font-size:27px;margin-bottom:7px}
 .muted{color:var(--muted)}
@@ -385,17 +358,6 @@ tr:last-child td{border-bottom:0}
   .main{margin-left:190px;padding:22px}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .content-grid{grid-template-columns:1fr}
-  .auth-wrap{grid-template-columns:1fr}
-  .auth-brand{
-    display:flex;
-    padding:28px 18px;
-    background:
-      radial-gradient(circle at 15% 15%,#d9ecff 0,transparent 35%),
-      linear-gradient(145deg,#f4f9ff,#e8f4ff)
-  }
-  .auth-brand .logo-icon{width:54px;height:54px;border-radius:17px;font-size:26px}
-  .auth-brand .brand-name{font-size:28px;margin:10px 0 2px}
-  .auth-brand .brand-desc{margin-bottom:0}
 }
 @media(max-width:650px){
   .sidebar{
@@ -433,14 +395,12 @@ tr:last-child td{border-bottom:0}
 
 <!-- HALAMAN AUTENTIKASI -->
 <section id="authView" class="auth-wrap">
-  <div class="auth-brand">
-    <div class="logo-icon">💊</div>
-    <div class="brand-name">Odette<span>.</span></div>
-
-  </div>
-
   <div class="auth-side">
     <form id="authForm" class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-icon">💊</div>
+        <div class="brand-name">Odette<span>.</span></div>
+      </div>
       <h1 id="authTitle">Masuk ke akun Anda</h1>
       <p id="authSubtitle" class="muted">Silakan masuk untuk melanjutkan.</p>
 
